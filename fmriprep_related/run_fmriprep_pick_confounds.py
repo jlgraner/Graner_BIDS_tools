@@ -3,20 +3,51 @@ import os
 import pandas
 import fmriprep_pick_confounds as fpc
 
+##############################################
+##  PURPOSE: This script is used to create a .tsv file containing
+##           a subset of all the confounds produced by fmriprep.
+##           It also allows the removal of initial time-points from
+##           the confounds to facilitate the removal of pre-steady-state
+##           TRs from the data output by fmriprep.
+##
+##  USAGE:   Edit the variables at the top portion of this file and call
+##           it on the command line with "python -m run_fmriprep_pick_confounds".
+##           The "_to_run" variables below should be lists of BIDS labels (i.e.
+##           the things following "sub-", "ses-", "task-", etc. in the fmriprep confound
+##           file name).
+##
+##  VARS:    subs_to_run: list of subjects identifiers to run
+##           ses_to_run: list of session labels to run
+##           runs_to_run: list of run labels to run
+##           tasks_to_run: list of task labels to run
+##           rows_to_remove: number of beginning rows to remove from the output confound
+##                           subset file
+##           output_suffix: string that will be appended to the end of the input file
+##                          name (ignoring the file type) to create the output file name
+##           confounds_to_include: types of confounds to include in the output file.
+##           confound_file_base_dir: directory path string that can be formatted to reach each
+##                                   of the input confound files you wish to run. This will
+##                                   typically be your fmriprep output directory followed by
+##                                   "/sub-{sub}/ses-{ses}/func/".
+##           confound_file_base_name: file name string that can be formatted to match each
+##                                    input confound file. Odds are you will not have to
+##                                    change this, as fmriprep produces standardized output.
+###################################################
+
+
 subs_to_run = [
                'EM0033'
               ]
 
 ses_to_run = ['day3']
-
-runs_to_run = ['01']
-# runs_to_run = ['01', '02', '03', '04']
-
+runs_to_run = ['01', '02', '03', '04']
 tasks_to_run = ['emoreg']
 
 rows_to_remove = 4
-
 output_suffix = '_final'
+
+confound_file_base_dir = '/mnt/keoki/experiments2/EMERALD/Data/MRI/BIDS/fmriprep/sub-{sub}/ses-{ses}/func/'
+confound_file_base_name = 'sub-{sub}_ses-{ses}_task-{task}_run-{run}_bold_confounds.tsv'
 
 confounds_to_include = [
                         'CSF',
@@ -38,10 +69,6 @@ confounds_to_include = [
                         'RotZ'
                         # 'AROMA'
                         ]
-
-# confound_file_base_dir = '/mnt/keoki/experiments2/EMERALD/Data/MRI/BIDS/fmriprep/sub-{sub}/ses-{ses}/func/'
-confound_file_base_dir = '/mnt/keoki/experiments2/EMERALD/Data/MRI/Test_area/fmri/'
-confound_file_base_name = 'sub-{sub}_ses-{ses}_task-{task}_run-{run}_bold_confounds.tsv'
 
 
 #A new confound file will need to be written for each run of each session of task for each subject
