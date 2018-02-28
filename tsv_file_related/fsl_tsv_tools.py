@@ -5,24 +5,25 @@ import pandas as pd
 import io
 import os, sys
 
-def fslcond2bids(subjID, session, task, run, TSV_directory, file_list, condition_list):
+def fsl2tsv(subjID, session, task, run, tsv_directory, file_list, condition_list):
 
     ##########################
     #
-    #  *argv is a list of EV .txt files for a specific subject, session, task, and run
+    #  file_list is a list of EV .txt files for a specific subject, session, task, and run
     #
     #      Example call for sub-01, ses-day1, acquisition, run-01:
     #
-    #          EVs = ['.../EV1.txt',
+    #          file_list = ['.../EV1.txt',
     #                 '.../EV2.txt',
     #                 '.../EV3.txt',
     #                 '.../EV4.txt']
     #
-    #          generate('01', '1', 'acq', '01', '.../BIDS_tsv', *EVs)
+    #          fsl2tsv('01', '1', 'acq', '01', '.../BIDS_tsv', file_list, condition_list)
     #
-    #          writes all tsv files (for all subjects) to same directory (BIDS_tsv)
     #
     ##########################
+
+    print('----STARTING fsl2tsv----')
 
     #Make sure the file list and the label list are the same length
     if len(file_list) != len(condition_list):
@@ -48,4 +49,6 @@ def fslcond2bids(subjID, session, task, run, TSV_directory, file_list, condition
     BIDS_event_tsv = df_sorted.drop('on/off', axis=1)
 
     #Write output files
-    BIDS_event_tsv.to_csv(path_or_buf=os.path.join(TSV_directory, 'sub-'+subjID+'_ses-'+session+'_task-'+task+'_run-'+run+'_events.tsv'), sep='\t', index=False)
+    BIDS_event_tsv.to_csv(path_or_buf=os.path.join(tsv_directory, 'sub-'+subjID+'_ses-'+session+'_task-'+task+'_run-'+run+'_events.tsv'), sep='\t', index=False)
+
+    print('----FINISHED fsl2tsv----')
