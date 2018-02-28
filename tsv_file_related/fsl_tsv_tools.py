@@ -8,19 +8,26 @@ import os, sys
 def fsl2tsv(subjID, session, task, run, tsv_directory, file_list, condition_list):
 
     ##########################
-    #
-    #  file_list is a list of EV .txt files for a specific subject, session, task, and run
-    #
-    #      Example call for sub-01, ses-day1, acquisition, run-01:
-    #
-    #          file_list = ['.../EV1.txt',
-    #                 '.../EV2.txt',
-    #                 '.../EV3.txt',
-    #                 '.../EV4.txt']
-    #
-    #          fsl2tsv('01', '1', 'acq', '01', '.../BIDS_tsv', file_list, condition_list)
-    #
-    #
+    ##PURPOSE: This function takes as input a list of FSL EV files and outputs a single
+    ##         BIDS-format .tsv file.
+    ##
+    ##INPUT:
+    ##       subjID: string containing the BIDS subject ID (i.e. what comes after "sub-")
+    ##       session: string containing the BIDS session (i.e. what comes after "ses-")
+    ##       task: string containing the BIDS task name (i.e. what comes after "task-")
+    ##       run: string containing the BIDS run identifier (i.e. what comes after "run-")
+    ##       tsv_directory: path into which to write the output .tsv file
+    ##       file_list: list of strings containing the full paths/names of the input
+    ##                  FSL EV files to be combined into the output .tsv file
+    ##       condition_list: list of condition labels (one per input EV file) to be used
+    ##                       in the output .tsv file
+    ##
+    ##OUTPUT: a single .tsv file containing 3 columns: onset, duration, trial_type. The
+    ##        file will contain one header line followed by one row per line in each EV.
+    ##        The values in trial_type will be taken from the elements in "condition_list".
+    ##        The condition onset and duration values will be taken directly from the input
+    ##       EV files. The name of the output file will be in BIDS format, generated from
+    ##        the other input variable strings.
     ##########################
 
     print('----STARTING fsl2tsv----')
