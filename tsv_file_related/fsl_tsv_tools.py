@@ -28,6 +28,9 @@ def fsl2tsv(subjID, session, task, run, tsv_directory, file_list, condition_list
     ##        The condition onset and duration values will be taken directly from the input
     ##       EV files. The name of the output file will be in BIDS format, generated from
     ##        the other input variable strings.
+    ##
+    ##AUTHORS:
+    ##          Leonard Faul and John Graner, Duke University, 2018
     ##########################
 
     print('----STARTING fsl2tsv----')
