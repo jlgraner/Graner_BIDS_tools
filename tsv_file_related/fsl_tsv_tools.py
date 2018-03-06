@@ -96,7 +96,7 @@ def tsv2fsl(input_file, base_output_dir):
         sub_data.trial_type = 1
 
         #Write out a file from the data frame
-        output_name = '{input}_fslev-{label}.txt'.format(input=input_prefix, label=element)
+        output_name = '{input}_fslEV-{label}.txt'.format(input=input_prefix, label=element)
         output_file = os.path.join(base_output_dir, output_name)
 
         print('Writing file: {}'.format(output_file))
@@ -120,4 +120,3 @@ def split_tsv_name(input_file):
             return_dict[element] = file_name.split('{}-'.format(element))[-1].split('_')[0]
 
     return return_dict
-    
