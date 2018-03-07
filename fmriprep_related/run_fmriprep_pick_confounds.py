@@ -83,7 +83,7 @@ for sub in subs_to_run:
                 print('Creating confound file from: {}'.format(confound_file))
 
                 output_name = os.path.split(confound_file)[-1][:-4]+str(output_suffix)
-                output_file = os.path.join(confound_file_base_dir, output_name+'.tsv')
+                output_file = os.path.join(confound_dir, output_name+'.tsv')
 
                 print('Output file name set: {}'.format(output_file))
 
