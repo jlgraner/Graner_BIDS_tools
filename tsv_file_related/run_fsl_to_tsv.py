@@ -2,7 +2,7 @@
 import fsl_tsv_tools as ftt
 import os
 
-# fsl2tsv(subjID, session, task, run, TSV_directory, file_list, condition_list)
+this_env = os.environ
 
 sub_list = [
             'EM0038'
@@ -30,9 +30,9 @@ condition_list = [
                   'reapstrategycues'
                   ]
 
-base_input_dir = '/mnt/keoki/experiments2/Graner/Data/bxh2bids_test_stuff'
+base_input_dir = os.path.join(this_env['MYDIR'], 'Data/bxh2bids_test_stuff')
 
-base_output_dir = '/mnt/keoki/experiments2/Graner/Data/bxh2bids_test_stuff'
+base_output_dir = os.path.join(this_env['MYDIR'], 'Data/bxh2bids_test_stuff')
 sub_dir = os.path.join('sub-{sub}', 'ses-{ses}', 'func')
 
 for subjID in sub_list:

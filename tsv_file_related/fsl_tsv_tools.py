@@ -71,6 +71,8 @@ def tsv2fsl(input_file, base_output_dir):
     ##THIS FUNCTION ASSUMES YOUR TSV FILE HAS A 'trial_type' COLUMN!
     #############################
 
+    print('----STARTING tsv2fsl----')
+
     #Check to make sure input file is there
     if not os.path.exists(input_file):
         raise RuntimeError('Input file cannot be found: {}'.format(input_file))
@@ -102,15 +104,17 @@ def tsv2fsl(input_file, base_output_dir):
         print('Writing file: {}'.format(output_file))
         sub_data.to_csv(path_or_buf=output_file, sep='\t', index=False, header=False)
 
+    print('----FINISHED tsv2fsl----')
+
 
 def split_tsv_name(input_file):
 
     #This function takes a BIDS tsv file name as input and returns the sub,
     #ses, task, and run found in it as a dictionary.
 
-    return_dict = {}
+    print('----STARTING split_tsv_name----')
 
-    ##MAKE SURE FILE IS THERE
+    return_dict = {}
 
     file_name = os.path.split(input_file)[-1]
     file_name = file_name[:-4]
@@ -118,5 +122,7 @@ def split_tsv_name(input_file):
     for element in ['sub', 'ses', 'task', 'run']:
         if element in file_name:
             return_dict[element] = file_name.split('{}-'.format(element))[-1].split('_')[0]
+
+    print('----FINISHED split_tsv_name----')
 
     return return_dict

@@ -3,6 +3,8 @@ import os
 import pandas
 import fmriprep_pick_confounds as fpc
 
+this_env = os.environ
+
 ##############################################
 ##  PURPOSE: This script is used to create a .tsv file containing
 ##           a subset of all the confounds produced by fmriprep.
@@ -32,44 +34,102 @@ import fmriprep_pick_confounds as fpc
 ##           confound_file_base_name: file name string that can be formatted to match each
 ##                                    input confound file. Odds are you will not have to
 ##                                    change this, as fmriprep produces standardized output.
+##           include_tr_motcen_regs: set this to 1 to have the script produce single-TR "censoring"
+##                                   regressors based on frame-wise displacement. These regressors
+##                                   will have a value of 1 at a single TR and values of 0 everywhere else.
+##           mot_cen_limit: number stating the threshold (in mm) of frame-wise displacement a TR must have
+##                          before a censor regressor is created for it.
 ###################################################
 
 
 subs_to_run = [
-               'EM0033'
-              ]
+              'sub-EM0001',
+              'sub-EM0033',
+              'sub-EM0036',
+              'sub-EM0038',
+              'sub-EM0066',
+              'sub-EM0071',
+              'sub-EM0088',
+              'sub-EM0126',
+              'sub-EM0153',
+              'sub-EM0155',
+              'sub-EM0162',
+              'sub-EM0164',
+              'sub-EM0174',
+              'sub-EM0179',
+              'sub-EM0184',
+              'sub-EM0187',
+              'sub-EM0192',
+              'sub-EM0202',
+              'sub-EM0206',
+              'sub-EM0217',
+              'sub-EM0219',
+              'sub-EM0220',
+              'sub-EM0223',
+              'sub-EM0240',
+              'sub-EM0291'
+               ]
 
 ses_to_run = ['day3']
 runs_to_run = ['01', '02', '03', '04']
 tasks_to_run = ['emoreg']
 
 rows_to_remove = 4
-output_suffix = '_final'
+output_suffix = '_forFSL'
 
-confound_file_base_dir = '/mnt/keoki/experiments2/EMERALD/Data/MRI/BIDS/fmriprep/sub-{sub}/ses-{ses}/func/'
-confound_file_base_name = 'sub-{sub}_ses-{ses}_task-{task}_run-{run}_bold_confounds.tsv'
+confound_file_base_dir = os.path.join(this_environ['EMDIR'], 'Data/MRI/BIDS/new_fmriprep/fmriprep/{sub}/ses-{ses}/func/')
+# confound_file_base_dir = os.path.join(this_environ['EMDIR'], 'Data/MRI/BIDS/fmriprep/{sub}/ses-{ses}/func/')
+# confound_file_base_dir = os.path.join(this_environ['EMDIR'], 'Data/MRI/BIDS/fmriprep_UT/fmriprep/sub-{sub}/ses-{ses}/func/')
+# confound_file_base_name = 'sub-{sub}_ses-{ses}_task-{task}_run-{run}_bold_confounds.tsv'
+confound_file_base_name = '{sub}_ses-{ses}_task-{task}_run-{run}_desc-confounds_regressors.tsv'
+
+include_tr_motcen_regs = 1
+mot_cen_limit = 0.2
+
+# OLD Strings!!!
+# confounds_to_include = [
+#                         'CSF',
+#                         'WhiteMatter',
+#                         # 'GlobalSignal', <- I wouldn't recommend including this.
+#                         'stdDVARS',
+#                         # 'non-stdDVARS',
+#                         # 'vx-wisestdDVARS',
+#                         'FramewiseDisplacement',
+#                         'tCompCor',
+#                         'aCompCor',
+#                         # 'Cosine',
+#                         # 'NonSteadyStateOutlier',
+#                         'X',
+#                         'Y',
+#                         'Z',
+#                         'RotX',
+#                         'RotY',
+#                         'RotZ'
+#                         # 'AROMA'
+#                         ]
 
 confounds_to_include = [
-                        'CSF',
-                        'WhiteMatter',
-                        # # 'GlobalSignal', <- I wouldn't recommend including this.
-                        'stdDVARS',
-                        # # 'non-stdDVARS',
-                        # # 'vx-wisestdDVARS',
-                        # 'FramewiseDisplacement',
-                        'tCompCor',
-                        'aCompCor',
-                        # 'Cosine',
-                        # 'NonSteadyStateOutlier',
-                        'X',
-                        'Y',
-                        'Z',
-                        'RotX',
-                        'RotY',
-                        'RotZ'
-                        # 'AROMA'
+                        'csf',
+                        'white_matter',
+                        # 'global_signal', <- I wouldn't recommend including this.
+                        # 'std_dvars',
+                        'dvars',
+                        'framewise_displacement',
+                        't_comp_cor',
+                        'a_comp_cor',
+                        # 'cosine',
+                        # 'non_steady_state_outlier',
+                        'trans_x',
+                        'trans_y',
+                        'trans_z',
+                        'rot_x',
+                        'rot_y',
+                        'rot_z'
+                        # 'aroma_motion'
                         ]
 
+good_runs = []
+failed_runs = []
 
 #A new confound file will need to be written for each run of each session of task for each subject
 for sub in subs_to_run:
@@ -89,17 +149,20 @@ for sub in subs_to_run:
 
                 if not os.path.exists(confound_file):
                     print('Confound file cannot be found: {}'.format(confound_file))
+                    failed_runs.append([sub, ses, task, run, 'input_file_missing'])
+                    raise RuntimeError('input_file_missing')
                 else:
                     #Create a list of confound column names to include in the new file
                     include_list = [] #This list will contain the specific names of columns to be included in the output
                     print('Reading input file as data frame...')
-                    data = pandas.read_csv(confound_file, sep='\t', engine='python')
+                    data = pandas.read_csv(confound_file, sep='\t', engine='python', dtype=float)
                     #Create an empty data frame to fill in
                     new_data = pandas.DataFrame()
                     for element in confounds_to_include:
                         print('Dealing with confound label: {}'.format(element))
                         #Deal with labels with more than one confound column
-                        if element in ['tCompCor', 'aCompCor', 'Cosine', 'NonSteadyStateOutlier', 'AROMA']:
+                        # if element in ['tCompCor', 'aCompCor', 'Cosine', 'NonSteadyStateOutlier', 'AROMA']:
+                        if element in ['t_comp_cor', 'a_comp_cor', 'cosine', 'non_steady_state_outlier', 'aroma_motion']:
                             #Find column header names that contain the label category
                             match_list = fpc.match_columns(data, element)
                             print('Confound label matched with list: {}'.format(match_list))
@@ -114,6 +177,10 @@ for sub in subs_to_run:
                     # for name in include_list:
                     #     new_data[name] = data[name]
                     new_data = fpc.add_columns(data, new_data, include_list)
+                    #If desired, create single-TR regressors and add them to the new data frame
+                    if include_tr_motcen_regs:
+                        mot_censor_dataframe = fpc.create_motion_censor_regs(data, mot_cen_limit, rows_to_remove)
+                        new_data = fpc.add_columns(mot_censor_dataframe, new_data, mot_censor_dataframe.keys())
                     #If desired, remove initial entries corresponding to pre-steady-state TRs
                     if rows_to_remove > 0:
                         print('Removing first {} rows from new data frame.'.format(rows_to_remove))
@@ -121,4 +188,10 @@ for sub in subs_to_run:
                     #Write the new data frame out as a new confound file
                     print('Writing output file: {}'.format(output_file))
                     new_data.to_csv(path_or_buf=output_file, sep='\t', index=False)
+                    good_runs.append([sub, ses, task, run])
+
+print('-------------------------------------')
+print('Runs that ran: {}'.format(good_runs))
+print('Runs that failed: {}'.format(failed_runs))
+print('--------------------------------------')
 print('Done!')
