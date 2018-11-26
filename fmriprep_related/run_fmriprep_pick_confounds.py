@@ -52,7 +52,7 @@ subs_to_run = [
               'sub-EM0088',
               'sub-EM0126',
               'sub-EM0153',
-              'sub-EM0155',
+              # 'sub-EM0155',
               'sub-EM0162',
               'sub-EM0164',
               'sub-EM0174',
@@ -77,7 +77,7 @@ tasks_to_run = ['emoreg']
 rows_to_remove = 4
 output_suffix = '_forFSL'
 
-confound_file_base_dir = os.path.join(this_environ['EMDIR'], 'Data/MRI/BIDS/new_fmriprep/fmriprep/{sub}/ses-{ses}/func/')
+confound_file_base_dir = os.path.join(this_env['EMDIR'], 'Data/MRI/BIDS/new_fmriprep/fmriprep/{sub}/ses-{ses}/func/')
 # confound_file_base_dir = os.path.join(this_environ['EMDIR'], 'Data/MRI/BIDS/fmriprep/{sub}/ses-{ses}/func/')
 # confound_file_base_dir = os.path.join(this_environ['EMDIR'], 'Data/MRI/BIDS/fmriprep_UT/fmriprep/sub-{sub}/ses-{ses}/func/')
 # confound_file_base_name = 'sub-{sub}_ses-{ses}_task-{task}_run-{run}_bold_confounds.tsv'
