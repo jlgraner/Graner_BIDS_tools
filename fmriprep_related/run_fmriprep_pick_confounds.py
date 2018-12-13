@@ -43,31 +43,31 @@ this_env = os.environ
 
 
 subs_to_run = [
-              'sub-EM0001',
-              'sub-EM0033',
-              'sub-EM0036',
-              'sub-EM0038',
-              'sub-EM0066',
-              'sub-EM0071',
-              'sub-EM0088',
-              'sub-EM0126',
-              'sub-EM0153',
-              # 'sub-EM0155',
-              'sub-EM0162',
-              'sub-EM0164',
-              'sub-EM0174',
-              'sub-EM0179',
-              'sub-EM0184',
-              'sub-EM0187',
-              'sub-EM0192',
-              'sub-EM0202',
-              'sub-EM0206',
-              'sub-EM0217',
-              'sub-EM0219',
-              'sub-EM0220',
-              'sub-EM0223',
-              'sub-EM0240',
-              'sub-EM0291'
+              'EM0001',
+              'EM0033',
+              'EM0036',
+              'EM0038',
+              'EM0066',
+              'EM0071',
+              'EM0088',
+              'EM0126',
+              'EM0153',
+              'EM0155',
+              'EM0162',
+              'EM0164',
+              'EM0174',
+              'EM0179',
+              'EM0184',
+              'EM0187',
+              'EM0192',
+              'EM0202',
+              'EM0206',
+              'EM0217',
+              'EM0219',
+              'EM0220',
+              'EM0223',
+              'EM0240',
+              'EM0291'
                ]
 
 ses_to_run = ['day3']
@@ -77,11 +77,11 @@ tasks_to_run = ['emoreg']
 rows_to_remove = 4
 output_suffix = '_forFSL'
 
-confound_file_base_dir = os.path.join(this_env['EMDIR'], 'Data/MRI/BIDS/new_fmriprep/fmriprep/{sub}/ses-{ses}/func/')
+confound_file_base_dir = os.path.join(this_env['EMDIR'], 'Data/MRI/BIDS/new_fmriprep/fmriprep/sub-{sub}/ses-{ses}/func/')
 # confound_file_base_dir = os.path.join(this_environ['EMDIR'], 'Data/MRI/BIDS/fmriprep/{sub}/ses-{ses}/func/')
 # confound_file_base_dir = os.path.join(this_environ['EMDIR'], 'Data/MRI/BIDS/fmriprep_UT/fmriprep/sub-{sub}/ses-{ses}/func/')
 # confound_file_base_name = 'sub-{sub}_ses-{ses}_task-{task}_run-{run}_bold_confounds.tsv'
-confound_file_base_name = '{sub}_ses-{ses}_task-{task}_run-{run}_desc-confounds_regressors.tsv'
+confound_file_base_name = 'sub-{sub}_ses-{ses}_task-{task}_run-{run}_desc-confounds_regressors.tsv'
 
 include_tr_motcen_regs = 1
 mot_cen_limit = 0.2
