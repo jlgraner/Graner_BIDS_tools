@@ -2,8 +2,6 @@
 import fsl_tsv_tools as ftt
 import os
 
-this_env = os.environ
-
 sub = '[[SUBJECT ID]]' # The ID number you use for this study participant (e.g. 'MS001')
 ses = '[[SESSION ID]]' # A short identifier for this scan session (e.g. 'day1')
 task = '[[TASK NAME]]' # The short name of your fMRI task (e.g. 'stroop')
