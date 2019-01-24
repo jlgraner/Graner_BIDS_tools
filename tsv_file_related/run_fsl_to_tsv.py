@@ -5,7 +5,7 @@ import os
 this_env = os.environ
 
 sub = 'EM0038'
-session = 'day3'
+ses = 'day3'
 task = 'emoreg'
 run = '03'
 
@@ -27,19 +27,18 @@ condition_list = [
                   'reapstrategycues'
                   ]
 
-base_input_dir = os.path.join(this_env['MYDIR'], 'Data/bxh2bids_test_stuff')
+input_dir = os.path.join(this_env['MYDIR'], 'Data/bxh2bids_test_stuff')
 
-base_output_dir = os.path.join(this_env['MYDIR'], 'Data/bxh2bids_test_stuff')
+output_dir = os.path.join(this_env['MYDIR'], 'Data','bxh2bids_test_stuff', 'sub-{}'.format(sub), 'ses-{}'.format(ses), 'func')
 
-sub_dir = os.path.join('sub-{sub}', 'ses-{ses}', 'func')
 
-tsv_directory = os.path.join(base_output_dir, sub_dir.format(sub=sub, ses=session))
+
 print('Calling fsl2tsv for subject: {}'.format(sub))
 
 file_list = []
 for element in input_file_list:
-    file_list.append(os.path.join(base_input_dir, element))
+    file_list.append(os.path.join(input_dir, element))
 
-ftt.fsl2tsv(sub, session, task, run, tsv_directory, file_list, condition_list)
+ftt.fsl2tsv(sub, ses, task, run, output_dir, file_list, condition_list)
 
 print('Done!')
