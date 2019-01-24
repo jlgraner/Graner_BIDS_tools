@@ -174,8 +174,6 @@ for sub in subs_to_run:
                             print('Confound label added to inclusion list: {}'.format(element))
                     #Put the columns with the included column labels into the new data frame
                     print('Creating new data frame from name list: {}'.format(include_list))
-                    # for name in include_list:
-                    #     new_data[name] = data[name]
                     new_data = fpc.add_columns(data, new_data, include_list)
                     #If desired, create single-TR regressors and add them to the new data frame
                     if include_tr_motcen_regs:
