@@ -4,21 +4,18 @@ import os
 
 this_env = os.environ
 
-sub_list = [
-            'EM0038'
-            ]
-
+sub = 'EM0038'
 session = 'day3'
 task = 'emoreg'
 run = '03'
 
 input_file_list = [
-                   'EM0038_run3_arrowblocks_fslconds.txt',
-                   'EM0038_run3_diststrategycues_fslconds.txt',
-                   'EM0038_run3_negflowstrategycues_fslconds.txt',
-                   'EM0038_run3_negmemorywords_fslconds.txt',
-                   'EM0038_run3_neumemorywords_fslconds.txt',
-                   'EM0038_run3_reapstrategycues_fslconds.txt'
+                   'sub-EM0038_ses-day3_task-emoreg_run-03_events_fslEV-arrowblocks.txt',
+                   'sub-EM0038_ses-day3_task-emoreg_run-03_events_fslEV-diststrategycues.txt',
+                   'sub-EM0038_ses-day3_task-emoreg_run-03_events_fslEV-negflowstrategycues.txt',
+                   'sub-EM0038_ses-day3_task-emoreg_run-03_events_fslEV-negmemorywords.txt',
+                   'sub-EM0038_ses-day3_task-emoreg_run-03_events_fslEV-neumemorywords.txt',
+                   'sub-EM0038_ses-day3_task-emoreg_run-03_events_fslEV-reapstrategycues.txt'
                    ]
 
 condition_list = [
@@ -33,16 +30,16 @@ condition_list = [
 base_input_dir = os.path.join(this_env['MYDIR'], 'Data/bxh2bids_test_stuff')
 
 base_output_dir = os.path.join(this_env['MYDIR'], 'Data/bxh2bids_test_stuff')
+
 sub_dir = os.path.join('sub-{sub}', 'ses-{ses}', 'func')
 
-for subjID in sub_list:
-    tsv_directory = os.path.join(base_output_dir, sub_dir.format(sub=subjID, ses=session))
-    print('Calling fsl2tsv for subject: {}'.format(subjID))
+tsv_directory = os.path.join(base_output_dir, sub_dir.format(sub=sub, ses=session))
+print('Calling fsl2tsv for subject: {}'.format(sub))
 
-    file_list = []
-    for element in input_file_list:
-        file_list.append(os.path.join(base_input_dir, element))
+file_list = []
+for element in input_file_list:
+    file_list.append(os.path.join(base_input_dir, element))
 
-    ftt.fsl2tsv(subjID, session, task, run, tsv_directory, file_list, condition_list)
+ftt.fsl2tsv(sub, session, task, run, tsv_directory, file_list, condition_list)
 
 print('Done!')
