@@ -4,32 +4,32 @@ import os
 
 this_env = os.environ
 
-sub = 'EM0038'
-ses = 'day3'
-task = 'emoreg'
-run = '03'
+sub = '[[SUBJECT ID]]'
+ses = '[[SESSION ID]]'
+task = '[[TASK NAME]]'
+run = '[[RUN NUMBER]]'
 
 input_file_list = [
-                   'sub-EM0038_ses-day3_task-emoreg_run-03_events_fslEV-arrowblocks.txt',
-                   'sub-EM0038_ses-day3_task-emoreg_run-03_events_fslEV-diststrategycues.txt',
-                   'sub-EM0038_ses-day3_task-emoreg_run-03_events_fslEV-negflowstrategycues.txt',
-                   'sub-EM0038_ses-day3_task-emoreg_run-03_events_fslEV-negmemorywords.txt',
-                   'sub-EM0038_ses-day3_task-emoreg_run-03_events_fslEV-neumemorywords.txt',
-                   'sub-EM0038_ses-day3_task-emoreg_run-03_events_fslEV-reapstrategycues.txt'
+                   '[[FSL TXT FILE 1]]',
+                   '[[FSL TXT FILE 2]]',
+                   '[[FSL TXT FILE 3]]',
+                   '[[FSL TXT FILE 4]]',
+                   '[[FSL TXT FILE 5]]',
+                   '[[FSL TXT FILE 6]]'
                    ]
 
 condition_list = [
-                  'arrowblocks',
-                  'diststrategycues',
-                  'negflowstrategycues',
-                  'negmemorywords',
-                  'neumemorywords',
-                  'reapstrategycues'
+                  '[[FSL CONDITION NAME 1]]',
+                  '[[FSL CONDITION NAME 2]]',
+                  '[[FSL CONDITION NAME 3]]',
+                  '[[FSL CONDITION NAME 4]]',
+                  '[[FSL CONDITION NAME 5]]',
+                  '[[FSL CONDITION NAME 6]]'
                   ]
 
-input_dir = os.path.join(this_env['MYDIR'], 'Data/bxh2bids_test_stuff')
+input_dir = '[[DIRECTORY CONTAINING THE FILES IN input_file_list]]'
 
-output_dir = os.path.join(this_env['MYDIR'], 'Data','bxh2bids_test_stuff', 'sub-{}'.format(sub), 'ses-{}'.format(ses), 'func')
+output_dir = '[[DIRECTORY WHERE YOU WANT THE TSV FILE TO BE WRITTEN]]'
 
 
 
