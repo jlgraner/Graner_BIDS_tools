@@ -41,43 +41,43 @@ this_env = os.environ
 ##                          before a censor regressor is created for it.
 ###################################################
 
-
-subs_to_run = [
-              'EM0001',
-              'EM0033',
-              'EM0036',
-              'EM0038',
-              'EM0066',
-              'EM0071',
-              'EM0088',
-              'EM0126',
-              'EM0153',
-              'EM0155',
-              'EM0162',
-              'EM0164',
-              'EM0174',
-              'EM0179',
-              'EM0184',
-              'EM0187',
-              'EM0192',
-              'EM0202',
-              'EM0206',
-              'EM0217',
-              'EM0219',
-              'EM0220',
-              'EM0223',
-              'EM0240',
-              'EM0291'
-               ]
+subs_to_run = ['EM0126']
+# subs_to_run = [
+#               'EM0001',
+#               'EM0033',
+#               'EM0036',
+#               'EM0038',
+#               'EM0066',
+#               'EM0071',
+#               'EM0088',
+#               'EM0126',
+#               'EM0153',
+#               'EM0155',
+#               'EM0162',
+#               'EM0164',
+#               'EM0174',
+#               'EM0179',
+#               'EM0184',
+#               'EM0187',
+#               'EM0192',
+#               'EM0202',
+#               'EM0206',
+#               'EM0217',
+#               'EM0219',
+#               'EM0220',
+#               'EM0223',
+#               'EM0240',
+#               'EM0291'
+#                ]
 
 ses_to_run = ['day3']
 runs_to_run = ['01', '02', '03', '04']
 tasks_to_run = ['emoreg']
 
 rows_to_remove = 4
-output_suffix = '_forFSL'
+output_suffix = '_cos_forFSL'
 
-confound_file_base_dir = os.path.join(this_env['EMDIR'], 'Data/MRI/BIDS/new_fmriprep/fmriprep/sub-{sub}/ses-{ses}/func/')
+confound_file_base_dir = os.path.join(this_env['EMDIR'], 'Data/MRI/BIDS/fmriprep/sub-{sub}/ses-{ses}/func/')
 # confound_file_base_dir = os.path.join(this_environ['EMDIR'], 'Data/MRI/BIDS/fmriprep/{sub}/ses-{ses}/func/')
 # confound_file_base_dir = os.path.join(this_environ['EMDIR'], 'Data/MRI/BIDS/fmriprep_UT/fmriprep/sub-{sub}/ses-{ses}/func/')
 # confound_file_base_name = 'sub-{sub}_ses-{ses}_task-{task}_run-{run}_bold_confounds.tsv'
@@ -114,17 +114,17 @@ confounds_to_include = [
                         # 'global_signal', <- I wouldn't recommend including this.
                         # 'std_dvars',
                         'dvars',
-                        'framewise_displacement',
-                        't_comp_cor',
-                        'a_comp_cor',
+                        'framewise_displacement'
+                        # 't_comp_cor',
+                        # 'a_comp_cor',
                         # 'cosine',
                         # 'non_steady_state_outlier',
-                        'trans_x',
-                        'trans_y',
-                        'trans_z',
-                        'rot_x',
-                        'rot_y',
-                        'rot_z'
+                        # 'trans_x',
+                        # 'trans_y',
+                        # 'trans_z',
+                        # 'rot_x',
+                        # 'rot_y',
+                        # 'rot_z'
                         # 'aroma_motion'
                         ]
 
@@ -185,7 +185,7 @@ for sub in subs_to_run:
                         new_data = new_data.drop(range(rows_to_remove))
                     #Write the new data frame out as a new confound file
                     print('Writing output file: {}'.format(output_file))
-                    new_data.to_csv(path_or_buf=output_file, sep='\t', index=False)
+                    new_data.to_csv(path_or_buf=output_file, sep='\t', index=False, na_rep='n/a')
                     good_runs.append([sub, ses, task, run])
 
 print('-------------------------------------')
