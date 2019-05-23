@@ -27,7 +27,8 @@ condition_list = [
 
 input_dir = '[[DIRECTORY CONTAINING THE FILES IN input_file_list]]' # (e.g. '/usr/home/data/mystudy/MS001/fsl_ev_files/')
 
-output_dir = '[[DIRECTORY WHERE YOU WANT THE TSV FILE TO BE WRITTEN]]' # (e.g. '/usr/home/data/mystudy/MS001/BIDS_tsv_file/'; MUST EXIST BEFORE RUNNING)
+output_dir = '[[DIRECTORY WHERE YOU WANT THE TSV FILE TO BE WRITTEN]]' # (e.g. '/usr/home/data/mystudy/MS001/BIDS_tsv_file/';
+                                                                       #  MUST EXIST BEFORE RUNNING)
 
 
 #-----------Do not edit below this line------------
