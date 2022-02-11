@@ -37,80 +37,34 @@ this_env = os.environ
 ##           include_tr_motcen_regs: set this to 1 to have the script produce single-TR "censoring"
 ##                                   regressors based on frame-wise displacement. These regressors
 ##                                   will have a value of 1 at a single TR and values of 0 everywhere else.
+##                                   NOTE: CURRENT VERSIONS OF FMRIPREP CREATE THESE REGRESSORS ALREADY,
+##                                         SO THIS OPTION IS PROBABLY NOT NECESSARY!!!
 ##           mot_cen_limit: number stating the threshold (in mm) of frame-wise displacement a TR must have
 ##                          before a censor regressor is created for it.
 ###################################################
 
-subs_to_run = ['EM0126']
-# subs_to_run = [
-#               'EM0001',
-#               'EM0033',
-#               'EM0036',
-#               'EM0038',
-#               'EM0066',
-#               'EM0071',
-#               'EM0088',
-#               'EM0126',
-#               'EM0153',
-#               'EM0155',
-#               'EM0162',
-#               'EM0164',
-#               'EM0174',
-#               'EM0179',
-#               'EM0184',
-#               'EM0187',
-#               'EM0192',
-#               'EM0202',
-#               'EM0206',
-#               'EM0217',
-#               'EM0219',
-#               'EM0220',
-#               'EM0223',
-#               'EM0240',
-#               'EM0291'
-#                ]
 
-ses_to_run = ['day3']
+##Replace the contents of these variables with your study info.##
+subs_to_run = ['MYSUB0001', 'MYSUB0002']
+
+ses_to_run = ['SES']
 runs_to_run = ['01', '02', '03', '04']
-tasks_to_run = ['emoreg']
+tasks_to_run = ['MYTASK']
 
 rows_to_remove = 4
 output_suffix = '_forFSL'
 
-confound_file_base_dir = os.path.join(this_env['EMDIR'], 'Data/MRI/BIDS/fmriprep/sub-{sub}/ses-{ses}/func/')
-# confound_file_base_dir = os.path.join(this_environ['EMDIR'], 'Data/MRI/BIDS/fmriprep_UT/fmriprep/sub-{sub}/ses-{ses}/func/')
-# confound_file_base_name = 'sub-{sub}_ses-{ses}_task-{task}_run-{run}_bold_confounds.tsv'
+confound_file_base_dir = '/mypath/myData/MRI/BIDS/fmriprep/sub-{sub}/ses-{ses}/func/'
 confound_file_base_name = 'sub-{sub}_ses-{ses}_task-{task}_run-{run}_desc-confounds_regressors.tsv'
 
-include_tr_motcen_regs = 1
+include_tr_motcen_regs = 0
 mot_cen_limit = 0.2
 
-# OLD Strings!!!
-# confounds_to_include = [
-#                         'CSF',
-#                         'WhiteMatter',
-#                         # 'GlobalSignal', <- I wouldn't recommend including this.
-#                         'stdDVARS',
-#                         # 'non-stdDVARS',
-#                         # 'vx-wisestdDVARS',
-#                         'FramewiseDisplacement',
-#                         'tCompCor',
-#                         'aCompCor',
-#                         # 'Cosine',
-#                         # 'NonSteadyStateOutlier',
-#                         'X',
-#                         'Y',
-#                         'Z',
-#                         'RotX',
-#                         'RotY',
-#                         'RotZ'
-#                         # 'AROMA'
-#                         ]
-
+#Uncomment or comment lines to determine which confounds are written out
 confounds_to_include = [
                         'csf',
                         'white_matter',
-                        # 'global_signal', <- I wouldn't recommend including this.
+                        # 'global_signal',
                         # 'std_dvars',
                         'dvars',
                         'framewise_displacement'
@@ -126,6 +80,9 @@ confounds_to_include = [
                         # 'rot_z'
                         # 'aroma_motion'
                         ]
+
+#########DO NOT EDIT BELOW THIS LINE################
+
 
 good_runs = []
 failed_runs = []
