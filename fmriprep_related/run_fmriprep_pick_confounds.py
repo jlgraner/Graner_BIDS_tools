@@ -34,13 +34,6 @@ this_env = os.environ
 ##           confound_file_base_name: file name string that can be formatted to match each
 ##                                    input confound file. Odds are you will not have to
 ##                                    change this, as fmriprep produces standardized output.
-##           include_tr_motcen_regs: set this to 1 to have the script produce single-TR "censoring"
-##                                   regressors based on frame-wise displacement. These regressors
-##                                   will have a value of 1 at a single TR and values of 0 everywhere else.
-##                                   NOTE: CURRENT VERSIONS OF FMRIPREP CREATE THESE REGRESSORS ALREADY,
-##                                         SO THIS OPTION IS PROBABLY NOT NECESSARY!!!
-##           mot_cen_limit: number stating the threshold (in mm) of frame-wise displacement a TR must have
-##                          before a censor regressor is created for it.
 ###################################################
 
 
@@ -57,9 +50,6 @@ output_suffix = '_forFSL'
 confound_file_base_dir = '/mypath/myData/MRI/BIDS/fmriprep/sub-{sub}/ses-{ses}/func/'
 confound_file_base_name = 'sub-{sub}_ses-{ses}_task-{task}_run-{run}_desc-confounds_regressors.tsv'
 
-include_tr_motcen_regs = 0
-mot_cen_limit = 0.2
-
 #Uncomment or comment lines to determine which confounds are written out
 confounds_to_include = [
                         'csf',
@@ -67,7 +57,8 @@ confounds_to_include = [
                         # 'global_signal',
                         # 'std_dvars',
                         'dvars',
-                        'framewise_displacement'
+                        'framewise_displacement',
+                        'motion_outlier'
                         # 't_comp_cor',
                         # 'a_comp_cor',
                         # 'cosine',
@@ -132,10 +123,6 @@ for sub in subs_to_run:
                         #Put the columns with the included column labels into the new data frame
                         print('Creating new data frame from name list: {}'.format(include_list))
                         new_data = fpc.add_columns(data, new_data, include_list)
-                        #If desired, create single-TR regressors and add them to the new data frame
-                        if include_tr_motcen_regs:
-                            mot_censor_dataframe = fpc.create_motion_censor_regs(data, mot_cen_limit, rows_to_remove)
-                            new_data = fpc.add_columns(mot_censor_dataframe, new_data, mot_censor_dataframe.keys())
                         #If desired, remove initial entries corresponding to pre-steady-state TRs
                         if rows_to_remove > 0:
                             print('Removing first {} rows from new data frame.'.format(rows_to_remove))
